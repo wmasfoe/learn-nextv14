@@ -28,6 +28,10 @@ body {
   width: 100vw;
 }
 
+
+input {
+  color: blue;
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
