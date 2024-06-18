@@ -2,6 +2,7 @@ import SlideBarSearchField from "./SlideBarSearchField"
 import { getAllNotes } from '@lib/redis'
 import { Suspense } from 'react'
 import NoteListItem from "./NoteListItem"
+import EditButton from "./EditButton"
 
 export default function LayoutSlideBar() {
   return <>
@@ -12,34 +13,11 @@ export default function LayoutSlideBar() {
       {/* header */}
       <div className="bg-gray-700 flex justify-between items-center px-5 h-16 text-xl gap-3 border-solid border-gray-300">
         <SlideBarSearchField />
-        <EditButton />
+        <EditButton>new</EditButton>
       </div>
       <Suspense fallback={<>loading list....</>}>
         <NoteList />
       </Suspense>
-    </div>
-  </>
-}
-
-function EditButton() {
-  return <>
-    <div className="
-        bg-gray-500
-        w-32
-        h-10
-        leading-10
-        rounded-3xl
-        text-center
-        cursor-pointer
-        uppercase
-        hover:bg-gray-600
-        hover:outline-dashed
-        hover:outline-1
-        hover:outline-slate-400
-        active:bg-slate-700
-        active:outline-dotted
-      ">
-      new
     </div>
   </>
 }

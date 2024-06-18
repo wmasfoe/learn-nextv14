@@ -6,7 +6,7 @@ export default function Page() {
 
 function Note() {
   return <>
-    <NotePreview />
+    点击左侧查看笔记详情
   </>
 }
 

@@ -9,15 +9,21 @@ const initialData = {
 }
 
 export async function getAllNotes() {
+  await new Promise(resolve => setTimeout(resolve, 1000))
+
   const data = await redis.hgetall("notes");
   if (Object.keys(data).length == 0) {
     await redis.hset("notes", initialData);
   }
   const dbData = await redis.hgetall("notes")
   const formatData = Object.keys(dbData).map(key => {
+    const parseData = JSON.parse(dbData[key])
     return {
       key,
-      data: JSON.parse(dbData[key])
+      data: {
+        ...parseData,
+        key,
+      }
     }
   })
   return formatData
@@ -34,6 +40,8 @@ export async function updateNote(uuid, data) {
 }
 
 export async function getNote(uuid) {
+  await new Promise(resolve => setTimeout(resolve, 1000))
+
   return JSON.parse(await redis.hget("notes", uuid));
 }
 
