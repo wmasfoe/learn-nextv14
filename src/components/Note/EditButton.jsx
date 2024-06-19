@@ -1,20 +1,21 @@
-export default function EditButton({children}) {
-  return <div className="
-    bg-gray-500
-    w-32
-    h-10
-    leading-10
-    rounded-3xl
-    text-center
-    cursor-pointer
-    uppercase
-    hover:bg-gray-600
-    hover:outline-dashed
-    hover:outline-1
-    hover:outline-slate-400
-    active:bg-slate-700
-    active:outline-dotted
-  ">
+'use client'
+import { useRouter } from 'next/navigation'
+import ActionButton from './ActionButton'
+export default function EditButton({noteId, children}) {
+  const router = useRouter()
+
+  const handleClick = () => {
+    let path = '/demo/note/edit'
+    if(noteId) {
+      path += `/${noteId}`
+    }
+    router.push(path)
+    return false
+  }
+  
+  return <ActionButton
+    onClick={handleClick}
+  >
     { children }
-  </div>
+  </ActionButton>
 }

@@ -1,13 +1,17 @@
 'use client'
 import { useState } from "react"
-import { useRouter } from 'next/navigation'
+import { useRouter, useSelectedLayoutSegments } from 'next/navigation'
 
 export default function Content({ id, expandedDate, children }) {
   
   const router = useRouter()
+  const selectedLayoutSegment = useSelectedLayoutSegments()
   const handleNoteContent = () => {
     router.push(`/demo/note/${id}`)
   }
+
+  const lastSelectedLayoutSegment = selectedLayoutSegment[selectedLayoutSegment.length - 1]
+  const isFocus = lastSelectedLayoutSegment === id
 
   const [isShowContent, setIsShowContent] = useState(false)
   function handleClick(event) {
@@ -17,7 +21,7 @@ export default function Content({ id, expandedDate, children }) {
   }
 
   return <div
-      className="
+      className={`
         my-3
         p-3
         cursor-pointer
@@ -32,10 +36,9 @@ export default function Content({ id, expandedDate, children }) {
         gap-2
         group/item
         group-hover/item:visible
-        has-[*:hover]:bg-gray-700
-        transition-all
-        duration-1000
-      "
+        duration-75
+        ${isFocus ? 'bg-gray-600' : ''}
+      `}
       onClick={handleNoteContent}
     >
       <div className="flex flex-1 flex-col" >
