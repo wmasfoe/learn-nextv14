@@ -16,6 +16,7 @@ function mergeHandler(state, newTodo) {
 
 export default function Form({list}) {
 
+  // [表单state, 提交表单的action函数] = f(action, action return的初始值)
   const [state, sendFormAction] = useFormState(createToDo, { message: '' })
 
   const [optimistiToDos, addOptimisticTodo] = useOptimistic(

@@ -1,4 +1,4 @@
-export default function SubmitButton({className, children}) {
+export default function SubmitButton({className, children, loading,}) {
 
   return <button className={`
     bg-gray-500
@@ -16,7 +16,7 @@ export default function SubmitButton({className, children}) {
     active:bg-slate-700
     active:outline-dotted
     ${className}
-  `} type='submit'>
+  `} disabled={loading} type='submit'>
     { children }
   </button>
 }

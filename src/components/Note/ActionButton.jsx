@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 
-export default function EditButton({onClick, className, children}) {
+export default function EditButton({onClick, className, children, loading}) {
   const router = useRouter()
   
   const onClickProxy = async () => {
@@ -19,7 +19,7 @@ export default function EditButton({onClick, className, children}) {
     }
   }
 
-  return <div className={`
+  return <button className={`
     bg-gray-500
     w-32
     h-10
@@ -35,7 +35,7 @@ export default function EditButton({onClick, className, children}) {
     active:bg-slate-700
     active:outline-dotted
     ${className}
-  `} onClick={onClickProxy}>
+  `} disable={loading} onClick={onClickProxy}>
     { children }
-  </div>
+  </button>
 }

@@ -7,7 +7,7 @@ import EditButton from "./EditButton"
 export default function LayoutSlideBar() {
   return <>
     {/* slide-bar */}
-    <div className="bg-gray-800 w-fit h-full">
+    <div className="bg-gray-800 w-fit h-full flex flex-col items-start">
       {/* title */}
       <div className="flex justify-center items-center h-16 text-3xl">ABC</div>
       {/* header */}
@@ -27,12 +27,14 @@ async function NoteList() {
   const notes = await getAllNotes()
   
   return <>
-    <div className="px-3">
-      {
-        notes.map(note => <>
-          <NoteListItem key={note.key} itemData={note.data} />
-        </>)
-      }
+    <div className="flex-1 overflow-y-auto overflow-x-hidden w-full">
+      <div className="px-3 h-fit">
+        {
+          notes.map(note => <>
+            <NoteListItem key={note.key} itemData={note.data} />
+          </>)
+        }
+      </div>
     </div>
   </>
 }

@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { useFormStatus } from 'react-dom'
 import SubmitButton from './SubmitButton'
 import ActionButton from './ActionButton'
 import { saveNote, deleteNote } from '@noteAction'
@@ -26,8 +27,6 @@ export default function NoteEditor({
     return true
   }
 
-  const handleSaveNote = () => {}
-
   return <>
     <form className='flex flex-row h-full items-start gap-2' action={saveNote}>
       <div className='flex flex-1 flex-col h-full'>
@@ -45,9 +44,19 @@ export default function NoteEditor({
         ></textarea>
       </div>
       <div className='flex flex-row gap-1'>
-        <SubmitButton>done</SubmitButton>
-        <ActionButton onClick={handleClick}>{ btnText }</ActionButton>
+        <SubmitBtn />
+        <EditButton onClick={handleClick} text={btnText} />
       </div>
     </form>
   </>
+}
+
+function SubmitBtn() {
+  const { pending } = useFormStatus()
+  return <SubmitButton disable={pending}>{pending ? 'saving' : 'done'}</SubmitButton>
+}
+function EditButton({onClick, text}) {
+  const { pending } = useFormStatus()
+  const btnText = pending ? `${text} ing` : text
+  return <ActionButton disable={pending} onClick={onClick}>{ btnText }</ActionButton>
 }
