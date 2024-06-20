@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 
-export default function EditButton({onClick, children}) {
+export default function EditButton({onClick, className, children}) {
   const router = useRouter()
   
   const onClickProxy = async () => {
@@ -19,7 +19,7 @@ export default function EditButton({onClick, children}) {
     }
   }
 
-  return <div className="
+  return <div className={`
     bg-gray-500
     w-32
     h-10
@@ -34,7 +34,8 @@ export default function EditButton({onClick, children}) {
     hover:outline-slate-400
     active:bg-slate-700
     active:outline-dotted
-  " onClick={onClickProxy}>
+    ${className}
+  `} onClick={onClickProxy}>
     { children }
   </div>
 }

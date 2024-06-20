@@ -4,6 +4,7 @@
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@lib/*": ["./src/lib/*"],
+      "@noteAction": ["./src/app/demo/actions"],
     }
   }
 }

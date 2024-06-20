@@ -8,8 +8,10 @@ const initialData = {
   "1702459188837": '{"title":"ea molestias","content":"et iusto sed quo iure","updateTime":"2023-12-13T09:19:48.837Z"}'
 }
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
 export async function getAllNotes() {
-  await new Promise(resolve => setTimeout(resolve, 1000))
+  await sleep(1000)
 
   const data = await redis.hgetall("notes");
   if (Object.keys(data).length == 0) {
@@ -30,22 +32,25 @@ export async function getAllNotes() {
 }
 
 export async function addNote(data) {
+  await sleep(1000)
   const uuid = Date.now().toString();
   await redis.hset("notes", [uuid], data);
   return uuid
 }
 
 export async function updateNote(uuid, data) {
+  await sleep(1000)
   await redis.hset("notes", [uuid], data);
 }
 
 export async function getNote(uuid) {
-  await new Promise(resolve => setTimeout(resolve, 1000))
+  await sleep(1000)
 
   return JSON.parse(await redis.hget("notes", uuid));
 }
 
 export async function delNote(uuid) {
+  await sleep(1000)
   return redis.hdel("notes", uuid)
 }
 
