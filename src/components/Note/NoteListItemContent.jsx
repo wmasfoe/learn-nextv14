@@ -1,6 +1,5 @@
 'use client'
 import { useState } from "react"
-import { useFormState } from 'react-dom'
 import { useRouter, useSelectedLayoutSegments } from 'next/navigation'
 import { layoutDeleteNote } from '@noteAction'
 import Loading from '@components/common/Loading'
@@ -10,7 +9,6 @@ export default function Content({ id, expandedDate, children }) {
   const router = useRouter()
   const selectedLayoutSegment = useSelectedLayoutSegments()
   const handleNoteContent = (event) => {
-    console.log('====== ===== handleNoteContent', id)
     router.push(`/demo/note/${id}`)
   }
 
@@ -21,7 +19,6 @@ export default function Content({ id, expandedDate, children }) {
 
   const [loading, setLoading] = useState(false)
   async function handleClick(event) {
-    // setIsShowContent(!isShowContent)
     try {
       setLoading(true)
       await layoutDeleteNote(id)
@@ -29,11 +26,6 @@ export default function Content({ id, expandedDate, children }) {
     } catch(e) {
       console.error(e)
     }
-    event.preventDefault()
-    event.stopPropagation()
-    event.nativeEvent?.stopPropagation();
-    event.nativeEvent?.stopImmediatePropagation();
-    return false
   }
 
   function handleMouseEnter(event) {
@@ -87,7 +79,7 @@ export default function Content({ id, expandedDate, children }) {
       <button
         disabled={loading}
         className="w-4 h-4 rounded-full hidden group-hover/item:block hover:bg-slate-600 p-2 box-content cursor-pointer"
-        onClick={handleClick}
+        onClickCapture={handleClick}
       >
         {
           loading ?
