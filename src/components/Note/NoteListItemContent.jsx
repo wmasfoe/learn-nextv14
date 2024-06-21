@@ -1,12 +1,16 @@
 'use client'
 import { useState } from "react"
+import { useFormState } from 'react-dom'
 import { useRouter, useSelectedLayoutSegments } from 'next/navigation'
+import { layoutDeleteNote } from '@noteAction'
+import Loading from '@components/common/Loading'
 
 export default function Content({ id, expandedDate, children }) {
   
   const router = useRouter()
   const selectedLayoutSegment = useSelectedLayoutSegments()
-  const handleNoteContent = () => {
+  const handleNoteContent = (event) => {
+    console.log('====== ===== handleNoteContent', id)
     router.push(`/demo/note/${id}`)
   }
 
@@ -14,8 +18,31 @@ export default function Content({ id, expandedDate, children }) {
   const isFocus = lastSelectedLayoutSegment === id
 
   const [isShowContent, setIsShowContent] = useState(false)
-  function handleClick(event) {
-    setIsShowContent(!isShowContent)
+
+  const [loading, setLoading] = useState(false)
+  async function handleClick(event) {
+    // setIsShowContent(!isShowContent)
+    try {
+      setLoading(true)
+      await layoutDeleteNote(id)
+      setLoading(false)
+    } catch(e) {
+      console.error(e)
+    }
+    event.preventDefault()
+    event.stopPropagation()
+    event.nativeEvent?.stopPropagation();
+    event.nativeEvent?.stopImmediatePropagation();
+    return false
+  }
+
+  function handleMouseEnter(event) {
+    setIsShowContent(true)
+    event.preventDefault()
+    return false
+  }
+  function handleMouseLeave(event) {
+    setIsShowContent(false)
     event.preventDefault()
     return false
   }
@@ -40,21 +67,34 @@ export default function Content({ id, expandedDate, children }) {
         ${isFocus ? 'bg-gray-600' : ''}
       `}
       onClick={handleNoteContent}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <div className="flex flex-1 flex-col" >
+      <div
+        className="flex flex-1 flex-col"
+        style={{
+          transitionProperty: 'height',
+          transitionDuration: '100ms',
+          height: isShowContent ? '72px' : '48px',
+        }}
+      >
         {children}
         {
           isShowContent ? expandedDate : <></>
         }
       </div>
       {/* 箭头 */}
-      <div
-        className="w-4 h-4 rounded-full bg-slate-400 p-3 hidden group-hover/item:block hover:bg-slate-300"
+      <button
+        disabled={loading}
+        className="w-4 h-4 rounded-full hidden group-hover/item:block hover:bg-slate-600 p-2 box-content cursor-pointer"
         onClick={handleClick}
       >
-        <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <path d="M972.8 716.8a51.2 51.2 0 0 0-14.848-36.352l-409.6-409.6a51.2 51.2 0 0 0-72.192 0l-409.6 409.6a51.2 51.2 0 1 0 72.192 72.192L512 379.392l373.248 373.248A51.2 51.2 0 0 0 972.8 716.8z" fill="#333"></path>
-        </svg>
-      </div>
+        {
+          loading ?
+            <Loading/> :
+            <span data-v-61cac62e=""><svg width="100%" height="100%" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 10V44H39V10H9Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"></path><path d="M20 20V33" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M28 20V33" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 10H44" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 10L19.289 4H28.7771L32 10H16Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"></path></svg></span>
+        }
+        
+      </button>
     </div>
 }

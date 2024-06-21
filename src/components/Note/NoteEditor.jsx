@@ -1,9 +1,10 @@
 'use client'
-import { useState } from 'react'
-import { useFormStatus } from 'react-dom'
+import { useState, useRef } from 'react'
+import { useFormStatus, useFormState } from 'react-dom'
 import SubmitButton from './SubmitButton'
 import ActionButton from './ActionButton'
 import { saveNote, deleteNote } from '@noteAction'
+import useKeyboardSave from './useKeyboardSave'
 
 export default function NoteEditor({
   note,
@@ -17,6 +18,11 @@ export default function NoteEditor({
   const isNew = note === null
   const btnText = isNew ? 'cancel' : 'delete'
 
+  const formRef = useRef(null)
+  useKeyboardSave(() => {
+    formRef.current?.requestSubmit()
+  })
+
   const handleClick = () => {
     if(isNew) {
       setTitle('')
@@ -24,11 +30,14 @@ export default function NoteEditor({
     } else {
       deleteNote(note)
     }
-    return true
   }
 
+  const [saveActionState, saveFormAction] = useFormState(saveNote, {
+    message: null,
+  })
+
   return <>
-    <form className='flex flex-row h-full items-start gap-2' action={saveNote}>
+    <form className='flex flex-row h-full items-start gap-2' ref={formRef} action={saveFormAction}>
       <div className='flex flex-1 flex-col h-full'>
         <input
           value={title}
@@ -43,9 +52,14 @@ export default function NoteEditor({
           className='focus:outline-dotted focus:outline-teal-900 px-3 py-2 focus:outline-2 outline-0 rounded-l-none rounded-md text-lg w-full flex-1 text-cyan-500 bg-slate-800 mt-0.5'
         ></textarea>
       </div>
-      <div className='flex flex-row gap-1'>
-        <SubmitBtn />
-        <EditButton onClick={handleClick} text={btnText} />
+      <div className='flex flex-col gap-3'>
+        <div className='flex flex-row gap-1'>
+          <SubmitBtn />
+          <EditButton onClick={handleClick} text={btnText} />
+        </div>
+        {
+          saveActionState.message ? <div>{saveActionState.message}</div> : <></>
+        }
       </div>
     </form>
   </>
