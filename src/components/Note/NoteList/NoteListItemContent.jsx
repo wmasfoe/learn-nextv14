@@ -4,7 +4,7 @@ import { useRouter, useSelectedLayoutSegments } from 'next/navigation'
 import { layoutDeleteNote } from '@noteAction'
 import Loading from '@components/common/Loading'
 
-export default function Content({ id, expandedDate, children }) {
+export default function Content({ id, expandedDate, children, title }) {
   
   const router = useRouter()
   const selectedLayoutSegment = useSelectedLayoutSegments()
@@ -70,9 +70,13 @@ export default function Content({ id, expandedDate, children }) {
           height: isShowContent ? '72px' : '48px',
         }}
       >
-        {children}
+        <p className="text-xl text-teal-100">{title}</p>
         {
-          isShowContent ? expandedDate : <></>
+          children
+        }
+        {
+          isShowContent ? expandedDate :
+            <></>
         }
       </div>
       {/* 箭头 */}

@@ -1,4 +1,4 @@
-import LayoutSlideBar from "@/components/Note/LayoutSlideBar"
+import LayoutSlideBar from "@/components/Note/SlideBar/LayoutSlideBar"
 
 export default function Layout({children}) {
   return <div className="flex h-screen w-full">

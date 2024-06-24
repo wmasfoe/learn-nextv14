@@ -1,8 +1,7 @@
 import SlideBarSearchField from "./SlideBarSearchField"
-import { getAllNotes } from '@lib/redis'
 import { Suspense } from 'react'
-import NoteListItem from "./NoteListItem"
-import EditButton from "./EditButton"
+import NoteList from "@components/Note/NoteList/NoteList"
+import EditButton from "../EditButton"
 
 export default function LayoutSlideBar() {
   return <>
@@ -21,21 +20,3 @@ export default function LayoutSlideBar() {
     </div>
   </>
 }
-
-async function NoteList() {
-
-  const notes = await getAllNotes()
-  
-  return <>
-    <div className="flex-1 overflow-y-auto overflow-x-hidden w-full">
-      <div className="px-3 h-fit">
-        {
-          notes.map(note => <>
-            <NoteListItem key={note.key} itemData={note.data} />
-          </>)
-        }
-      </div>
-    </div>
-  </>
-}
-
