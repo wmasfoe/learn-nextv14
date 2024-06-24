@@ -16,8 +16,8 @@ export default function NoteListFilter({ notes }) {
     {
       filteredNoteList.map(note => {
         return <NoteListContent
-          key={note.id}
-          id={note.id}
+          key={note.key}
+          id={note.key}
           title={note.title}
           expandedDate={note.expandedDate}
         >
