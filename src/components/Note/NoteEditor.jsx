@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useFormStatus, useFormState } from 'react-dom'
 import SubmitButton from './SubmitButton'
 import ActionButton from './ActionButton'
@@ -34,7 +34,14 @@ export default function NoteEditor({
 
   const [saveActionState, saveFormAction] = useFormState(saveNote, {
     message: null,
+    errors: null,
   })
+
+  useEffect(() => {
+    if(saveActionState.errors) {
+      console.error(saveActionState.errors)
+    }
+  }, [saveActionState])
 
   return <>
     <form className='flex flex-row h-full items-start gap-2' ref={formRef} action={saveFormAction}>
@@ -57,6 +64,9 @@ export default function NoteEditor({
           <SubmitBtn />
           <EditButton onClick={handleClick} text={btnText} />
         </div>
+        {
+          saveActionState.errors ? <div className="text-red-400">{saveActionState.errors}</div> : <></>
+        }
         {
           saveActionState.message ? <div>{saveActionState.message}</div> : <></>
         }

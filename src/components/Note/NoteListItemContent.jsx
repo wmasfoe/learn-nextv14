@@ -58,7 +58,7 @@ export default function Content({ id, expandedDate, children }) {
         duration-75
         ${isFocus ? 'bg-gray-600' : ''}
       `}
-      onClick={handleNoteContent}
+      onClickCapture={handleNoteContent}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
